@@ -1,0 +1,30 @@
+[app]
+name = "slack-bridge"
+version = "0.1.0"
+description = "Tiny HTTP service for Slack slash commands that resolve to URLs on the same OpenHost zone (e.g. /jitsi <room> -> Jitsi room URL)."
+
+[runtime.container]
+image = "Dockerfile"
+# Inside the container the app listens on 8080.  OpenHost maps the
+# public path-prefix of this app to that port.
+port = 8080
+
+[routing]
+# Slack POSTs the slash command to /slack/jitsi.  Slack does not
+# carry our zone_auth cookie, so the path must be public; auth is
+# enforced inside the app via Slack's request signature (HMAC over
+# the body using the operator-configured signing secret).
+health_check = "/health"
+public_paths = ["/"]
+
+[resources]
+# This is a 30-line Python responder. It's idle 99.99% of the time
+# and serves a JSON body when Slack POSTs.  Tiny limits.
+memory_mb = 128
+cpu_millicores = 100
+
+[data]
+# Persistent: holds the operator-supplied Slack signing secret in
+# a single JSON file.  No app_temp_data needed — there's no scratch
+# work to do.
+app_data = true
