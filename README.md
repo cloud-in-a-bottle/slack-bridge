@@ -1,7 +1,7 @@
-# openhost-slack-bridge
+# bottled-slack-bridge
 
 A tiny HTTP service for Slack slash commands that resolve to URLs on
-the OpenHost zone hosting it.
+the Cloud in a Bottle zone hosting it.
 
 Currently exposes one command:
 
@@ -15,7 +15,7 @@ app's persistent data directory.
 
 ## Why a separate app
 
-This could have lived inside `openhost-jitsi`, but the lifecycles
+This could have lived inside `bottled-jitsi`, but the lifecycles
 are unrelated and the routing surface inside that container is
 already busy. Keeping it standalone means:
 
@@ -28,9 +28,9 @@ already busy. Keeping it standalone means:
 
 ## Setup
 
-### 1. Deploy the app to your OpenHost zone
+### 1. Deploy the app to your Cloud in a Bottle zone
 
-Using the OpenHost dashboard or CLI, install this repo as an app.
+Using the Cloud in a Bottle dashboard or CLI, install this repo as an app.
 Once it's running, the public URL is whatever your zone's router
 allocates for it (typically `https://<zone-domain>/slack-bridge`).
 
@@ -53,7 +53,7 @@ allocates for it (typically `https://<zone-domain>/slack-bridge`).
 
 The signing secret is read from
 `$OPENHOST_APP_DATA_DIR/slack_signing_secret.txt` on every request,
-so rotating it is "edit a file, no restart." On the OpenHost host:
+so rotating it is "edit a file, no restart." On the Cloud in a Bottle host:
 
 ```sh
 echo -n 'paste-the-signing-secret-here' \
@@ -104,7 +104,7 @@ dashes, and truncated at 64 characters.
 
 * `POST /slack/jitsi` — Slack slash-command handler. Requires a
   valid Slack signature.
-* `GET /health` — Liveness probe used by OpenHost's
+* `GET /health` — Liveness probe used by Cloud in a Bottle's
   `[routing] health_check`. Always returns `ok`.
 * `GET /` — Plain-text setup hint for humans.
 
