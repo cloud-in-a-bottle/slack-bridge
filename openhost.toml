@@ -1,7 +1,7 @@
 [app]
 name = "slack-bridge"
 version = "0.1.0"
-description = "Tiny HTTP service for Slack slash commands that resolve to URLs on the same OpenHost zone (e.g. /jitsi <room> -> Jitsi room URL)."
+description = "Tiny HTTP service for Slack slash commands that resolve to URLs on the same Cloud in a Bottle zone (e.g. /jitsi <room> -> Jitsi room URL)."
 
 [runtime.container]
 image = "Dockerfile"
